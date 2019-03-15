@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:tensor_programming_advanced/models/model.dart';
+import 'package:package_info/package_info.dart';
+import 'package:tensor_programming_advanced/blocs/base_provider.dart';
+import 'package:tensor_programming_advanced/blocs/contribution_bloc.dart';
+import 'package:tensor_programming_advanced/components/information_drawer.dart';
+import 'package:tensor_programming_advanced/components/list_page.dart';
+import 'package:tensor_programming_advanced/models/github_api.dart';
 import 'package:tensor_programming_advanced/models/rocks_api.dart';
-import 'package:tensor_programming_advanced/providers/cintribution_provider.dart';
+import 'package:tensor_programming_advanced/providers/information_provider.dart';
+//import 'package:tensor_programming_advanced/providers/cintribution_provider.dart';
 
 void main() => runApp(MyApp());
 
@@ -9,16 +15,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ContributionProvider(
-      contributionBloc: ContributionBloc(RocksApi()),
-      child: RootApp(),
-    );
+    return BlocProvider<ContributionBloc>(
+        builder: (BuildContext context, ContributionBloc bloc) => bloc ?? ContributionBloc(RocksApi()),
+        onDispose: (BuildContext context, ContributionBloc bloc) => bloc.dispose(),
+        child: RootApp());
   }
 }
 
 class RootApp extends StatelessWidget {
   Widget build(BuildContext context) {
-    final contributionBloc = ContributionProvider.of(context);
+    final contributionBloc = Provider.of<ContributionBloc>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Utopian Rocks Mobile My!!!',
@@ -48,36 +54,12 @@ class RootApp extends StatelessWidget {
               ListPage('pending', contributionBloc),
             ],
           ),
+          endDrawer: InformationProvider(
+            child: InformationDrawer(),
+            informationBloc: InformationBloc(PackageInfo.fromPlatform(), GithubApi()),
+          ),
         ),
       ),
     );
-  }
-}
-class ListPage extends StatelessWidget {
-  final ContributionBloc bloc;
-  final String pageName;
-
-  ListPage(this.pageName, this.bloc);
-
-  @override
-  Widget build(BuildContext context) {
-    bloc.pageName.add(pageName);
-
-    return StreamBuilder(
-        stream: bloc.results,
-        builder:
-            (BuildContext context, AsyncSnapshot<List<Contribution>> snapshot) {
-          if (!snapshot.hasData)
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-
-          return ListView.builder(
-            itemCount: snapshot.data.length,
-            itemBuilder: (context, index) => ListTile(
-              title: Text('${snapshot.data[index].title}'),
-            ),
-          );
-        });
   }
 }
