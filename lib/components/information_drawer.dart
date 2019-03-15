@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:package_info/package_info.dart';
+import 'package:tensor_programming_advanced/blocs/base_provider.dart';
 import 'package:tensor_programming_advanced/providers/information_provider.dart';
 
 class InformationDrawer extends StatelessWidget {
@@ -18,7 +20,7 @@ class InformationDrawer extends StatelessWidget {
   }
 
   Widget _buildInfoPanel(BuildContext context) {
-    final informationBloc = InformationProvider.of(context);
+    final informationBloc = Provider.of<InformationBloc>(context);
     return Flex(
       direction: Axis.vertical,
       children: <Widget>[
@@ -89,7 +91,7 @@ class InformationDrawer extends StatelessWidget {
   }
 
   void _getNewRelease(BuildContext context, AsyncSnapshot snapshot) {
-    final informationBloc = InformationProvider.of(context);
+    final informationBloc = Provider.of<InformationBloc>(context);
 
     informationBloc.releases.listen((releases) {
       if (snapshot.data.version.toString() != releases.tagName) {

@@ -16,7 +16,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<ContributionBloc>(
-        builder: (BuildContext context, ContributionBloc bloc) => bloc ?? ContributionBloc(RocksApi()),
+        builder: (BuildContext context, ContributionBloc bloc) =>
+            bloc ??
+            ContributionBloc(
+              RocksApi(),
+            ),
         onDispose: (BuildContext context, ContributionBloc bloc) => bloc.dispose(),
         child: RootApp());
   }
@@ -31,34 +35,39 @@ class RootApp extends StatelessWidget {
       home: DefaultTabController(
         length: 2,
         child: Scaffold(
-          appBar: AppBar(
-            title: Text(
-              'Utopian Rocks Mobile My!!!',
+            appBar: AppBar(
+              title: Text(
+                'Utopian Rocks Mobile My!!!',
+              ),
+              bottom: TabBar(
+                tabs: <Widget>[
+                  Tab(
+                    icon: Icon(Icons.rate_review),
+                    text: 'Waiting for Review',
+                  ),
+                  Tab(
+                    icon: Icon(Icons.hourglass_empty),
+                    text: 'Waiting on Upvote',
+                  ),
+                ],
+              ),
             ),
-            bottom: TabBar(
-              tabs: <Widget>[
-                Tab(
-                  icon: Icon(Icons.rate_review),
-                  text: 'Waiting for Review',
-                ),
-                Tab(
-                  icon: Icon(Icons.hourglass_empty),
-                  text: 'Waiting on Upvote',
-                ),
+            body: TabBarView(
+              children: <Widget>[
+                ListPage('unreviewed', contributionBloc),
+                ListPage('pending', contributionBloc),
               ],
             ),
-          ),
-          body: TabBarView(
-            children: <Widget>[
-              ListPage('unreviewed', contributionBloc),
-              ListPage('pending', contributionBloc),
-            ],
-          ),
-          endDrawer: InformationProvider(
-            child: InformationDrawer(),
-            informationBloc: InformationBloc(PackageInfo.fromPlatform(), GithubApi()),
-          ),
-        ),
+            endDrawer: BlocProvider<InformationBloc>(
+              builder: (_, bloc) =>
+                  bloc ??
+                  InformationBloc(
+                    PackageInfo.fromPlatform(),
+                    GithubApi(),
+                  ),
+              onDispose: (_, bloc) => bloc.dispose(),
+              child: InformationDrawer(),
+            )),
       ),
     );
   }

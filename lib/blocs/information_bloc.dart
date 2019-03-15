@@ -19,11 +19,18 @@ class InformationBloc {
 
   InformationBloc(this.packageInfo, this.api) {
     // Сдесь мы создаём класс observable при помощи
-    _releases = Observable.defer(() => Observable.fromFuture(api.getReleases()).asBroadcastStream(), reusable: true);
-
-    _infoStream = Observable.defer(
-          () => Observable.fromFuture(packageInfo).asBroadcastStream(),
+    _releases = Observable.defer(
+      () => Observable.fromFuture(api.getReleases()).asBroadcastStream(),
       reusable: true,
     );
+
+    _infoStream = Observable.defer(
+      () => Observable.fromFuture(packageInfo).asBroadcastStream(),
+      reusable: true,
+    );
+  }
+
+  void dispose(){
+    print('Information bloc Dispose');
   }
 }
