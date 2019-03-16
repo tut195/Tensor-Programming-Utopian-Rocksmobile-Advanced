@@ -49,6 +49,18 @@ class GithubModel {
       : this.tagName = json['tag_name'],
         this.htmlUrl = json['html_url'];
 }
+
+class SteemResponse {
+  final String lastVoteTime;
+  final int votingPower;
+
+  SteemResponse(this.lastVoteTime, this.votingPower);
+
+  SteemResponse.fromJson(Map json)
+      : this.lastVoteTime = json["last_vote_time"],
+        this.votingPower = json["voting_power"];
+}
+
 // {
 //     "author": "froq",
 //     "beneficiaries_set": true,

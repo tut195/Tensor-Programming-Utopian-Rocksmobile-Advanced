@@ -1,0 +1,13 @@
+в dev_dependecy добавляем   flutter_launcher_icons: ^0.7.0
+
+lutter_icons:
+  android: true
+  ios: true
+  image_path_android: 'assets/images/utopy.png'
+  image_path_ios: 'assets/images/utopy.png'
+  adaptive_icon_background: '#FFFAFAFA'
+
+
+чтобы создать иконки под платформы необходимо прописать в пабспек ямл и затем
+
+flutter packages pub run flutter_launcher_icon:main

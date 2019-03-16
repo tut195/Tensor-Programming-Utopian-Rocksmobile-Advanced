@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'package:package_info/package_info.dart';
 import 'package:tensor_programming_advanced/blocs/base_provider.dart';
 import 'package:tensor_programming_advanced/providers/information_provider.dart';
+import 'package:tensor_programming_advanced/utils.dart';
 
 class InformationDrawer extends StatelessWidget {
   @override
@@ -13,7 +13,9 @@ class InformationDrawer extends StatelessWidget {
         direction: Axis.vertical,
         children: <Widget>[
           _buildInfoPanel(context),
-          Center(),
+          Center(
+            child: Image.asset('assets/images/utopian-icon.png'),
+          ),
         ],
       ),
     );
@@ -106,7 +108,7 @@ class InformationDrawer extends StatelessWidget {
                   actions: <Widget>[
                     FlatButton(
                       child: Text('Download'),
-                      onPressed: () => null,
+                      onPressed: () => launchUrl(releases.htmlUrl),
                     ),
                     FlatButton(
                       child: Text('Close'),

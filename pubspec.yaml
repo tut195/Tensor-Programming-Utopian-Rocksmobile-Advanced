@@ -17,22 +17,34 @@ dependencies:
   package_info: ^0.4.0+2
   timeago: ^2.0.10
   url_launcher: ^5.0.2
+  intl: ^0.15.7
 
   cupertino_icons: ^0.1.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.7.0
 
+flutter_icons:
+  android: true
+  ios: true
+  image_path_android: 'assets/images/utopy.png'
+  image_path_ios: 'assets/images/utopy.png'
+  adaptive_icon_background: '#FFFAFAFA'
 
 flutter:
 
   uses-material-design: true
 
 
-fonts:
-  - family: Utopicons
-    fonts:
-      - asset: assets/fonts/utopicons.ttf
+  assets:
+    - assets/images/utopy.png
+    - assets/images/utopian-icon.png
+
+  fonts:
+    - family: Utopicons
+      fonts:
+        - asset: assets/fonts/utopicons.ttf
 
 
